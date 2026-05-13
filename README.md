@@ -6,19 +6,33 @@ A hybrid marimo + polars + scikit-learn + chainladder project template for inter
 
 ## Quick Start (Windows)
 
-1. **Clone or download** the repository to your computer.
-2. **Double-click `setup.bat`** in the project folder.
-   - It will check your Python version, create a virtual environment, and install all packages.
-   - Keep the window open until you see the "Setup complete!" message.
-3. Open a terminal in the project folder (`Win + R` → `cmd`, then `cd` to the folder), then run:
-   ```
-   .venv\Scripts\activate
-   marimo edit marimo\analysis.py
-   ```
-   The notebook will open in your browser.
-
 > **Requires Python 3.11 or later.** Download from [python.org/downloads](https://www.python.org/downloads/) if needed.  
-> Tick **"Add Python to PATH"** during the installer.
+> Tick **"Add Python to PATH"** during installation. No administrator rights required if you use the Windows Store version of Python or choose "Install just for me" in the installer.
+
+Open a terminal (PowerShell or Command Prompt) in the project folder, then run each step:
+
+**1. Create a virtual environment**
+```
+python -m venv .venv
+```
+
+**2. Activate it**
+```
+.venv\Scripts\activate
+```
+You should see `(.venv)` appear at the start of your prompt.
+
+**3. Install all packages**
+```
+pip install -e ".[dev]"
+```
+This may take a few minutes the first time.
+
+**4. Launch the notebook**
+```
+marimo edit marimo\analysis.py
+```
+The notebook will open in your browser.
 
 ---
 
@@ -46,22 +60,6 @@ my-data-sci-marimo-template/
 ```
 
 **Rule:** marimo cells call `src.*` functions. Logic never lives inside cells.
-
----
-
-## Manual Setup (alternative)
-
-```bash
-# 1. Create and activate a virtual environment
-python -m venv .venv
-source .venv/bin/activate      # Windows: .venv\Scripts\activate
-
-# 2. Install the project with dev dependencies
-pip install -e ".[dev]"
-
-# 3. Verify versions
-python -c "from src.utils.config import check_versions; check_versions()"
-```
 
 ---
 
