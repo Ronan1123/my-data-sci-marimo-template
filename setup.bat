@@ -1,0 +1,143 @@
+@echo off
+setlocal enabledelayedexpansion
+
+echo.
+echo ============================================================
+echo  Data Science Template - Setup
+echo ============================================================
+echo.
+
+:: ── 1. Check Python is available ──────────────────────────────────────────────
+echo [1/6] Checking Python...
+python --version >nul 2>&1
+if errorlevel 1 (
+    echo.
+    echo  ERROR: Python was not found on this computer.
+    echo.
+    echo  Please install Python 3.11 or later from:
+    echo    https://www.python.org/downloads/
+    echo.
+    echo  Make sure to tick "Add Python to PATH" during installation,
+    echo  then run this script again.
+    echo.
+    pause
+    exit /b 1
+)
+
+:: ── 2. Check Python >= 3.11 ───────────────────────────────────────────────────
+python -c "import sys; assert sys.version_info >= (3, 11), 'version'" >nul 2>&1
+if errorlevel 1 (
+    echo.
+    for /f "tokens=*" %%v in ('python --version 2^>^&1') do set PY_VER=%%v
+    echo  ERROR: Your Python version (!PY_VER!) is too old.
+    echo.
+    echo  This project requires Python 3.11 or later.
+    echo  Download it from: https://www.python.org/downloads/
+    echo.
+    pause
+    exit /b 1
+)
+
+for /f "tokens=*" %%v in ('python --version 2^>^&1') do echo  Found: %%v
+echo.
+
+:: ── 3. Create virtual environment ─────────────────────────────────────────────
+echo [2/6] Setting up virtual environment...
+if exist ".venv\Scripts\activate.bat" (
+    echo  Virtual environment already exists, skipping creation.
+) else (
+    python -m venv .venv
+    if errorlevel 1 (
+        echo.
+        echo  ERROR: Failed to create the virtual environment.
+        echo  Try running: python -m venv .venv
+        echo.
+        pause
+        exit /b 1
+    )
+    echo  Created .venv
+)
+echo.
+
+:: ── 4. Activate virtual environment ───────────────────────────────────────────
+echo [3/6] Activating virtual environment...
+call .venv\Scripts\activate.bat
+if errorlevel 1 (
+    echo.
+    echo  ERROR: Could not activate the virtual environment.
+    echo.
+    pause
+    exit /b 1
+)
+echo  Active.
+echo.
+
+:: ── 5. Upgrade pip ────────────────────────────────────────────────────────────
+echo [4/6] Upgrading pip...
+python -m pip install --upgrade pip --quiet
+if errorlevel 1 (
+    echo.
+    echo  WARNING: pip upgrade failed. Continuing with existing pip version.
+    echo  This may cause issues if pip is very old.
+    echo.
+)
+echo  Done.
+echo.
+
+:: ── 6. Install project dependencies ───────────────────────────────────────────
+echo [5/6] Installing packages (this may take a few minutes)...
+pip install -e ".[dev]" --quiet
+if errorlevel 1 (
+    echo.
+    echo  ERROR: Package installation failed.
+    echo.
+    echo  Common causes:
+    echo    - No internet connection
+    echo    - A package failed to build (check output above)
+    echo.
+    echo  Try running manually:  pip install -e ".[dev]"
+    echo.
+    pause
+    exit /b 1
+)
+echo  All packages installed.
+echo.
+
+:: ── 7. Copy .env if it doesn't exist ──────────────────────────────────────────
+if not exist ".env" (
+    if exist ".env.example" (
+        copy ".env.example" ".env" >nul
+        echo  Created .env from .env.example  ^(you can edit it to change settings^)
+        echo.
+    )
+)
+
+:: ── 8. Run version check ──────────────────────────────────────────────────────
+echo [6/6] Verifying installed packages...
+python -c "from src.utils.config import check_versions; check_versions()"
+if errorlevel 1 (
+    echo.
+    echo  WARNING: Version check reported issues (see above).
+    echo  The project may still work — check the warnings and continue.
+    echo.
+)
+
+:: ── Success ───────────────────────────────────────────────────────────────────
+echo.
+echo ============================================================
+echo  Setup complete!  Next steps:
+echo.
+echo  Open a terminal in this folder, then:
+echo.
+echo    1. Activate the environment:
+echo         .venv\Scripts\activate
+echo.
+echo    2. Launch the notebook:
+echo         marimo edit marimo\analysis.py
+echo.
+echo    3. Run the tests (optional):
+echo         pytest
+echo ============================================================
+echo.
+pause
+endlocal

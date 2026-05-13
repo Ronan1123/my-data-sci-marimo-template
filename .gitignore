@@ -1,0 +1,39 @@
+# Data — never commit raw or processed datasets
+data/raw/
+data/processed/
+data/interim/
+
+# Outputs — generated artefacts, not source
+outputs/
+
+# Serialised models and large binaries
+*.pkl
+*.joblib
+*.parquet
+*.feather
+*.arrow
+*.h5
+*.hdf5
+
+# Environment
+.env
+.venv/
+venv/
+env/
+
+# Python build artefacts
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Tools
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.DS_Store
+Thumbs.db
