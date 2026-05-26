@@ -21,6 +21,9 @@ outputs/
 venv/
 env/
 
+# Marimo runtime cache
+marimo/__marimo__/
+
 # Python build artefacts
 __pycache__/
 *.py[cod]

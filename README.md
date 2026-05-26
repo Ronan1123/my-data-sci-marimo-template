@@ -13,7 +13,7 @@ Open a terminal (PowerShell or Command Prompt) in the project folder, then run e
 
 **1. Create a virtual environment**
 ```
-python -m venv .venv
+py -m venv .venv
 ```
 
 **2. Activate it**
@@ -28,11 +28,11 @@ pip install -e ".[dev]"
 ```
 This may take a few minutes the first time.
 
-**4. Launch the notebook**
+**4. Launch a notebook**
 ```
-marimo edit marimo\analysis.py
+marimo edit marimo/analysis.py
 ```
-The notebook will open in your browser.
+The notebook will open in your browser. See the [Notebooks](#notebooks) section below for all available notebooks.
 
 ---
 
@@ -44,7 +44,10 @@ my-data-sci-marimo-template/
 │   ├── raw/            ← drop source files here (git-ignored)
 │   └── processed/      ← cleaned outputs from loaders.py (git-ignored)
 ├── marimo/
-│   └── analysis.py     ← interactive notebook (narrative flow)
+│   ├── analysis.py     ← interactive notebook (narrative flow)
+│   ├── altair_demo.py  ← reactive Altair charts demo
+│   ├── polars_demo.py      ← Polars LazyFrame + UI transformer demo
+│   └── chainladder_demo.py ← Chainladder development factors tutorial
 ├── src/
 │   ├── data/loaders.py         ← CSV/Parquet/Triangle loading
 │   ├── features/transformers.py ← polars transforms + sklearn adaptor
@@ -63,13 +66,16 @@ my-data-sci-marimo-template/
 
 ---
 
-## Running the Notebook
+## Notebooks
 
-```bash
-marimo edit marimo/analysis.py
-```
+| Notebook | Launch command | What it covers |
+|---|---|---|
+| `analysis.py` | `marimo edit marimo/analysis.py` | End-to-end workflow: upload data, EDA, feature engineering, sklearn modelling, chainladder reserving, and export |
+| `altair_demo.py` | `marimo edit marimo/altair_demo.py` | Reactive Altair charts — brushable scatter/bar linked views, row selection driving downstream histograms |
+| `polars_demo.py` | `marimo edit marimo/polars_demo.py` | Polars LazyFrame display, `mo.ui.table` row selection with group-by filtering, and `mo.ui.dataframe` visual query builder |
+| `chainladder_demo.py` | `marimo edit marimo/chainladder_demo.py` | Chainladder development factors — estimator basics, averaging methods, period selection, olympic averaging, industry vs. company transforms, and multi-LOB triangles |
 
-The notebook opens in your browser. Work through the sections top-to-bottom:
+### `analysis.py` section guide
 
 | Section | What it does |
 |---|---|
